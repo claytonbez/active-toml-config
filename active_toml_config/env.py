@@ -7,6 +7,13 @@ import pytoml as toml
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
+inclusive_matrix = {
+    "dev": ["dev"],
+    "test": ["dev", "test"],
+    "acc": ["dev", "test", "acc"],
+    "prod": ["dev", "test", "acc", "prod"],
+}
+
 
 def get_config_from_toml_file(file_path: str) -> dict:
     """
@@ -28,6 +35,7 @@ def parse_environment_vars_into_app_config(config: dict) -> dict:
     :return: dict of the active environment config.
     """
     current_env = os.getenv("ENV", "dev")
+
     if not current_env:
         raise ValueError("No ENV name has been set in your toml config file.")
     for env_name, env_dict in config.items():
@@ -37,7 +45,15 @@ def parse_environment_vars_into_app_config(config: dict) -> dict:
                     config[env_name][key] = None
                 else:
                     config[env_name][key] = parse_env_to_string(val)
-    return config[current_env]
+
+    new_config = config[inclusive_matrix[current_env][0]]
+
+    for env_name, envs_to_update in inclusive_matrix.items():
+        for env_to_update in envs_to_update:
+            if env_to_update in inclusive_matrix[current_env]:
+                new_config.update(config[env_to_update])
+
+    return new_config
 
 
 def parse_env_to_string(config_str: str) -> str:
