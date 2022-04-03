@@ -30,7 +30,8 @@ def get_config_from_toml_file(file_path: str) -> dict:
 
 def parse_environment_vars_into_app_config(config: dict) -> dict:
     """
-    Parses the current set environment variables into the app config provided, based on the active "ENV" variable.
+    Parses the current set environment variables into the app config provided,
+    based on the active "ENV" variable.
     :param config: app config as dict loaded from toml file
     :return: dict of the active environment config.
     """
@@ -66,12 +67,15 @@ def parse_env_to_string(config_str: str) -> str:
     start = config_str.find("${")
     end = config_str.find("}")
     if start != -1 and end != -1:
-        env_to_replace = config_str[start + 2:end].split(":")
+        env_to_replace = config_str[start + 2: end].split(":")
         if len(env_to_replace) == 1:
-            config_str = config_str.replace(f"${{{env_to_replace[0]}}}", os.getenv(env_to_replace[0], ""))
+            config_str = config_str.replace(
+                f"${{{env_to_replace[0]}}}", os.getenv(env_to_replace[0], "")
+            )
         else:
             config_str = config_str.replace(
-                f"${{{env_to_replace[0]}:{env_to_replace[1]}}}", os.getenv(env_to_replace[0], env_to_replace[1])
+                f"${{{env_to_replace[0]}:{env_to_replace[1]}}}",
+                os.getenv(env_to_replace[0], env_to_replace[1]),
             )
 
         return parse_env_to_string(config_str)
@@ -103,4 +107,6 @@ def get_active_toml_config(file_path: str) -> namedtuple:
     log.warning("No config found.")
 
 
-env = get_active_toml_config(os.getenv("ACTIVE_TOML_CONFIG_PATH", "./config.toml"))
+env = get_active_toml_config(
+    os.getenv("ACTIVE_TOML_CONFIG_PATH", "./config.toml")
+)
