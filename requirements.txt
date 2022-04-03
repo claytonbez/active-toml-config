@@ -1,0 +1,4 @@
+pytoml
+pytest
+coverage
+flake8

@@ -1,0 +1,13 @@
+[dev]
+test_var = "test_value"
+test_var_replace = "${REPLACE_VAR:default_value}"
+
+[test]
+additional_var = "additional_value"
+
+[acc]
+test_var = "test_value_overwritten"
+
+[prod]
+test_var = "test_value_overwritten_by_prod"
+additional_var = "additional_value_overwritten_by_prod"
