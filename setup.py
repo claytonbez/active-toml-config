@@ -23,6 +23,6 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     packages=setuptools.find_packages(exclude=("tests", "dist", "sdist")),
-    install_requires=["pytoml"],
+    install_requires=["pytoml", "pytest", "coverage", "flake8"],
     python_requires=">=3.8",
 )

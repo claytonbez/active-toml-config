@@ -1,0 +1,6 @@
+[devWRONG]
+test_var = "test_value"
+test_var_replace = "${REPLACE_VAR:default_value}"
+
+[testyWRONG]
+additional_var = "additional_value"
