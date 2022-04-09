@@ -2,11 +2,20 @@ import os
 from imp import reload
 
 
-project_root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-test_config_file = os.path.join(project_root_dir, "tests/resources/test_config.toml")
+project_root_dir = os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__))
+)
+test_config_file = os.path.join(
+    project_root_dir, "tests/resources/test_config.toml"
+)
 
 
 def get_and_reload_env_tuple():
+    """
+    Test Helper function
+    Get the active environment tuple and reload the module
+    :return:
+    """
     import active_toml_config as atc
     reload(atc)
     return atc.env
